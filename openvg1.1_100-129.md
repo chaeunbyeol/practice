@@ -6,12 +6,11 @@ When filling a path, any subpaths that do not end with a `CLOSE_PATH` segment co
 `MOVE_TO_REL 10, 2`; `LINE_TO_ABS 30, 12`; `LINE_TO_ABS 30, 2`
 
 If filled, this sequence will result in one filled triangle with vertices $(0, 0)$, $(10, 10)$, and $(10, 0)$ and another filled triangle with vertices $(20, 2)$, $(30, 12)$, and $(30, 2)$. Note that the implicit closure of the initial subpath prior to the `MOVE_TO_REL` segment command has no effect on the starting coordinate of the second triangle; it is computed by adding the relative offset $(10, 2)$ to the final coordinate of the previous segment $(10, 0)$ to obtain $(20, 2)$ and is not altered by the (virtual) insertion of the line connecting the first subpath’s final vertex $(10, 0)$ to its initial vertex $(0, 0)$). Figure 10 illustrates this process, with the resulting filled areas highlighted. When stroking a path, no implicit closure takes place, as shown in Figure 11. Implicit closure affects only the output when filling a path, and does not alter the path data in any way.
-![figure10](figure10.PNG)
-<img src="figure10.PNG">
+![figure10](figures/figure10.PNG)
 _Figure 10: Implicit Closure of Filled Paths_
 <a name="Figure10:Implicit_Closure_of_Filled_Paths"></a>
 
-![figure11](figure11.png)
+![figure11](figures/figure11.PNG)
 _Figure 11: Stroked Paths Have No Implicit Closure_
 <a name="Figure11:Stroked_Paths_Have_No_Implicit_Closure"></a>
 
@@ -22,7 +21,7 @@ Stroking a path consists of “widening” the edges of the path using a straigh
 Conceptually, stroking of a path is performed in two steps. First, the stroke parameters are applied in the user coordinate system to form a new shape representing the end result of dashing, widening the path, and applying the end cap and line join styles. Second, a path is created that defines the outline of this stroked shape. This path is transformed using the path-user-to-surface transformation (possibly involving shape distortions due to non-uniform scaling or shearing). Finally, the resulting path is filled with paint in exactly the same manner as when filling a user-defined path using the non-zero fill rule.
 
 Stroking a path applies a single “layer” of paint, regardless of any intersections between portions of the thickened path. Figure 12 illustrates this principle. A single stroke (above) is drawn with a black color and an alpha value of 50%, compared with two separate strokes (below) drawn with the same color and alpha values. The single stroke produces a shape with a uniform color of 50% gray, as if a single layer of translucent paint has been applied, even where portions of the path overlap one another. By contrast, the separate strokes produce two applications of the translucent paint in the area of overlap, resulting in a darkened area.
-![figure12](figure12.png)
+![figure12](figures/figure12.PNG)
 _Figure 12: Each Stroke Applies a Single Layer of Paint_
 <a name="Figure12:_Each_Stroke_Applies_a_Single_Layer_of_Paint"></a>
 
@@ -41,11 +40,11 @@ These parameters are set on the current context using the variants of the **vgSe
 #### _End Cap Styles_
 <a name="End_Cap_Styles"></a>
 Figure 13 illustrates the Butt (top), Round (center), and Square (bottom) end cap styles applied to a path consisting of a single line segment. Figure 14 highlights the additional geometry created by the end caps. The Butt end cap style terminates each segment with a line perpendicular to the tangent at each endpoint. The Round end cap style appends a semicircle with a diameter equal to the line width centered around each endpoint. The Square end cap style appends a rectangle with two sides of length equal to the line width perpendicular to the tangent, and two sides of length equal to half the line width parallel to the tangent, at each endpoint. The outgoing tangent is used at the left endpoint and the incoming tangent is used at the right endpoint.
-![figure13](figure13.png)
+![figure13](figures/figure13.PNG)
 _Figure 13: End Cap Styles_
 <a name="Figure13:End_Cap_Styles"></a>
 
-![figure14](figure14.png)
+![figure14](figures/figure14.PNG)
 _Figure 14: End Cap Styles with Additional Geometry Highlighted_
 <a name="Figure14:End_Cap_Styles_with_Additional_Geometry_Highlighted"></a>
 
@@ -54,11 +53,11 @@ _Figure 14: End Cap Styles with Additional Geometry Highlighted_
 Figure 15 illustrates the Bevel (left), Round (center), and Miter (right) line join styles applied to a pair of line segments. Figure 16 highlights the additional geometry created by the line joins. The Bevel join style appends a triangle with two vertices at the outer endpoints of the two “fattened” lines and a third vertex at the intersection point of the two original lines. The Round join style appends a wedge-shaped portion of a circle, centered at the intersection point of the two original lines, having a radius equal to half the line width. The Miter join style appends a trapezoid with one vertex at the intersection point of the two original lines, two adjacent vertices at the outer endpoints of the two “fattened” lines and a fourth vertex at the extrapolated intersection point of the outer perimeters of the two “fattened” lines.
 
 When stroking using the Miter join style, the _miter length_ (_i.e_., the length between the intersection points of the inner and outer perimeters of the two “fattened” lines) is compared to the product of the user-set miter limit and the line width. If the miter length exceeds this product, the Miter join is not drawn and a Bevel join is substituted.
-![figure15](figure15.png)
+![figure15](figures/figure15.PNG)
 _Figure 15: Line Join Styles_
 <a name="Figure15:Line_Join_Styles"></a>
 
-![figure16](figure16.png)
+![figure16](figures/figure16.PNG)
 _Figure 16: Line Join Styles with Additional Geometry Highlighted_
 <a name="Figure16:Line_Join_Styles_with_Additional_Geometry_Highlighted"></a>
 
@@ -91,7 +90,7 @@ A dash, or space between dashes, with length less than 0 is treated as having a 
 
 A negative dash phase is equivalent to the positive phase obtained by adding a suitable multiple of the dash pattern length.
 
-![figure17](figure17.png)
+![figure17](figures/figure17.PNG)
 _Figure 17: Dash Pattern and Phase Example_
 <a name="Figure17:Dash_Pattern_and_Phase_Example"></a>
 
@@ -323,15 +322,7 @@ The OpenVG context stores two paint definitions at a time, one to be applied to 
 
 #### _VGPaint_
 <a name="VGPaint"></a>
-`VGPaint` represents an opaque handle to a paint object. A `VGPaint` object is live;
-changes to a `VGPaint` object (using `vgSetParameter`, or by altering an attached
-
-<!-----115----->
-pattern image) attached to a context will immediately affect drawing calls on that
-context. If a `VGPaint` object is accessed from multiple threads, the application must
-ensure (using **vgFinish** along with application-level synchronization primitives) that the
-paint definition is not altered from one context while another context may still be using it
-for drawing.
+`VGPaint` represents an opaque handle to a paint object. A `VGPaint` object is live; changes to a `VGPaint` object (using `vgSetParameter`, or by altering an attached pattern image) attached to a context will immediately affect drawing calls on that context. If a `VGPaint` object is accessed from multiple threads, the application must ensure (using **vgFinish** along with application-level synchronization primitives) that the paint definition is not altered from one context while another context may still be using it for drawing.
 ```
 typedef VGHandle VGPaint;
 ```
@@ -648,7 +639,7 @@ and to use forward differencing of Ax + B and Cx2 + Dx + E to evaluate it increm
 along a scanline with several additions and a single square root per pixel.
 
 <!-----125----->
-![figure18](figure18.png)
+![figure18](figures/figure18.PNG)
 _Figure 18: Radial Gradient Function_
 
 #### _Setting Radial Gradient Parameters_
@@ -815,17 +806,16 @@ gradients defined on a given paint object.
 
 
 #### _Formal Definition of Spread Modes_
+<a name="Formal_Definition_of_Spread_Modes"></a>
 This section provides a formal definition of the color ramp spread modes.
 
-In the following, assume that a sequence of stops {S0, S1, ..., SN-1} have been defined by
-the application, and/or by default or implicit values. The stop Si is defined to have offset
+In the following, assume that a sequence of stops \left\{ { S }_{ 0 },\quad { S }_{ 1 }, \quad... , { S }_{ N-1 }  \right\}  have been defined by the application, and/or by default or implicit values. The stop { S }_{ i } is defined to have offset
 xi and color ci. The stops are assumed to be ordered by offset but may have duplicate
 offsets; that is, for all i < j, xi ≤ xj. To determine the interpolated color value at a given
 offset value v, determine the smallest i such that xi+1 > v. If xi = v, use the color ci,
 otherwise perform linear interpolation between the stops Si and Si+1 to produce the color
 ci + (ci+1 – ci)(v – xi)/(xi+1 – xi).
 
-In pad mode, values smaller than 0 are assigned the color c0 and values greater than or
-equal to 1 are assigned the color cN-1.
-In repeat mode, the offset value v is mapped to a new value v´ that is guaranteed to lie
-between 0 and 1. Following this mapping, the color is defined as for pad mode:
+In pad mode, values smaller than 0 are assigned the color { c }_{ 0 } and values greater than or equal to 1 are assigned the color { c }_{ N-1 }.
+
+In repeat mode, the offset value v is mapped to a new value v' that is guaranteed to lie between 0 and 1. Following this mapping, the color is defined as for pad mode:
