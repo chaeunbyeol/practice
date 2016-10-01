@@ -6,7 +6,8 @@ When filling a path, any subpaths that do not end with a `CLOSE_PATH` segment co
 `MOVE_TO_REL 10, 2`; `LINE_TO_ABS 30, 12`; `LINE_TO_ABS 30, 2`
 
 If filled, this sequence will result in one filled triangle with vertices $(0, 0)$, $(10, 10)$, and $(10, 0)$ and another filled triangle with vertices $(20, 2)$, $(30, 12)$, and $(30, 2)$. Note that the implicit closure of the initial subpath prior to the `MOVE_TO_REL` segment command has no effect on the starting coordinate of the second triangle; it is computed by adding the relative offset $(10, 2)$ to the final coordinate of the previous segment $(10, 0)$ to obtain $(20, 2)$ and is not altered by the (virtual) insertion of the line connecting the first subpath’s final vertex $(10, 0)$ to its initial vertex $(0, 0)$). Figure 10 illustrates this process, with the resulting filled areas highlighted. When stroking a path, no implicit closure takes place, as shown in Figure 11. Implicit closure affects only the output when filling a path, and does not alter the path data in any way.
-![figure10](/figure10.png)
+![figure10](figure10.PNG)
+<img src="figure10.PNG">
 _Figure 10: Implicit Closure of Filled Paths_
 <a name="Figure10:Implicit_Closure_of_Filled_Paths"></a>
 
