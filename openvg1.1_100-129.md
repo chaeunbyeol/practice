@@ -1,3 +1,5 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
 #### _Implicit Closure of Filled Subpaths_
 <a name="Implicit_Closure_of_Filled_Subpaths"></a>
 When filling a path, any subpaths that do not end with a `CLOSE_PATH` segment command (_i.e_., that are terminated with a `MOVE_TO_ABS` or `MOVE_TO_REL` segment command, or that contain the final segment of the path) are implicitly closed, without affecting the position of any other vertices of the path or the \left( sx, sy\right), \left( px, py\right) or \left( ox, oy\right) variables. For example, consider the sequence of segment commands:
@@ -809,13 +811,10 @@ gradients defined on a given paint object.
 <a name="Formal_Definition_of_Spread_Modes"></a>
 This section provides a formal definition of the color ramp spread modes.
 
-In the following, assume that a sequence of stops \left\{ { S }_{ 0 },\quad { S }_{ 1 }, \quad... , { S }_{ N-1 }  \right\}  have been defined by the application, and/or by default or implicit values. The stop { S }_{ i } is defined to have offset
-xi and color ci. The stops are assumed to be ordered by offset but may have duplicate
-offsets; that is, for all i < j, xi ≤ xj. To determine the interpolated color value at a given
-offset value v, determine the smallest i such that xi+1 > v. If xi = v, use the color ci,
-otherwise perform linear interpolation between the stops Si and Si+1 to produce the color
-ci + (ci+1 – ci)(v – xi)/(xi+1 – xi).
+In the { c }_{ i } following, assume that a sequence of stops \left\{ { S }_{ 0 },\quad { S }_{ 1 }, \quad... , { S }_{ N-1 }  \right\}  have been defined by the application, and/or by default or implicit values. The stop { S }_{ i } is defined to have offset { x }_{ i } and color { c }_{ i }. The stops are assumed to be ordered by offset but may have duplicate offsets; that is, for all i<j, { x }_{ i }\le{ x }_{ j }. To determine the interpolated color value at a given offset value v, determine the smallest i such that { x }_{ i+1 }>v. If { x }_{ i } = v, use the color { c }_{ i }, otherwise perform linear interpolation between the stops { S }_{ i } and { S }_{ i+1 } to produce the color { c }_{ i }+\left( { c }_{ i+1 }-{ c }_{ i } \right) \left( v-{ x }_{ i } \right) /\left( { x }_{ i+1 }-{ x }_{ i } \right).
 
-In pad mode, values smaller than 0 are assigned the color { c }_{ 0 } and values greater than or equal to 1 are assigned the color { c }_{ N-1 }.
+In pad mode, values smaller than 0 are assigned the color { c }_{ 0 } and values greater than or equal to 1 are assigned the color \({ c }_{ N-1 }\).
+
+
 
 In repeat mode, the offset value v is mapped to a new value v' that is guaranteed to lie between 0 and 1. Following this mapping, the color is defined as for pad mode:
